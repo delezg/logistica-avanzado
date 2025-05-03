@@ -1,0 +1,48 @@
+name: CI/CD Workflow Avanzado
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  setup:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      - name: Mostrar inventario inicial
+        run: cat inventario.csv
+  build:
+    runs-on: windows-latest
+    needs: setup
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      - name: Simular construcción
+        run: echo "Construyendo el proyecto logístico..."
+
+  test:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      - name: Simular pruebas automáticas
+        run: |
+          echo "Ejecutando pruebas..."
+          # Aquí podrías poner comandos de test reales
+          echo "Pruebas completadas con éxito"
+
+  deploy:
+    runs-on: windows-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+      - name: Simular despliegue a producción
+        run: |
+          echo "Desplegando a producción..."
+          # Aquí se podrían poner comandos de despliegue reales
